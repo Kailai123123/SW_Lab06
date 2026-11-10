@@ -11,6 +11,11 @@ const { Schema, model } = require('mongoose');
 
 const registrationSchema = new Schema({
   // TODO
-});
+  event : {type: Schema.Types.ObjectId, ref : 'Event', required : true},
+  name : {type : String, required : true, trim : true, minlength : 2},
+  email : {type : String, required : true, trim : true, lowercase : true, match : /.+@.+\..+/}
+}, { timestamps: true })
+
+registrationSchema.index({ event: 1, email: 1 }, { unique: true });
 
 module.exports = model('Registration', registrationSchema);
